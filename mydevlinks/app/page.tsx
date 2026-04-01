@@ -24,7 +24,7 @@ export default function Home() {
           {/* Avatar */}
           <div className="relative h-20 w-20 overflow-hidden rounded-full ring-2 ring-[rgba(255,255,255,0.5)] [html:not(.dark)_&]:ring-[rgba(0,0,0,0.5)]">
             <Image
-              src="/avatar.png"
+              src="/avatar-darkmode.png"
               alt="Foto de perfil"
               fill
               className="object-cover"
