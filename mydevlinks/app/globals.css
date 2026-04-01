@@ -1,15 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  /* Typography */
+  --font-sans: "Inter", sans-serif;
+
+  /* Text colors */
+  --color-text-dark: #ffffff;
+  --color-text-light: #000000;
+
+  /* Stroke */
+  --color-stroke-dark: rgba(255, 255, 255, 0.5);
+  --color-stroke-light: rgba(0, 0, 0, 0.5);
+
+  /* Surface */
+  --color-surface-dark: rgba(255, 255, 255, 0.1);
+  --color-surface-dark-hover: rgba(255, 255, 255, 0.05);
+  --color-surface-light: rgba(0, 0, 0, 0.05);
+  --color-surface-light-hover: rgba(0, 0, 0, 0.02);
+
+  /* Highlight */
+  --color-highlight-dark: rgba(255, 255, 255, 0.2);
+  --color-highlight-light: rgba(0, 0, 0, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {

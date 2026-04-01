@@ -1,9 +1,83 @@
 import Image from "next/image";
+import { ThemeToggle } from "./components/theme-toggle";
+import { LinkButton } from "./components/link-button";
+import { SocialIcons } from "./components/social-icons";
+
+const links = [
+  { label: "Inscreva-se no MLW", href: "#" },
+  { label: "Baixe meu e-book", href: "#" },
+  { label: "Veja meu portfólio", href: "#" },
+  { label: "Conheça meu curso", href: "#" },
+];
 
 export default function Home() {
   return (
-    <div className="bg-gray-200 w-full text-center">
-      <h1>EU TO TENTANDO DE NOVO</h1>
-    </div>
+    <main
+      className="
+        min-h-screen w-full bg-cover bg-center bg-no-repeat
+        bg-[url('/bg-light.png')]
+        dark:bg-[url('/bg-dark.png')]
+      "
+    >
+      <div className="flex min-h-screen items-center justify-center px-4 py-12">
+        <div className="flex w-full max-w-sm flex-col items-center gap-6">
+          {/* Avatar */}
+          <div className="relative h-20 w-20 overflow-hidden rounded-full ring-2 ring-[rgba(255,255,255,0.5)] [html:not(.dark)_&]:ring-[rgba(0,0,0,0.5)]">
+            <Image
+              src="/avatar.png"
+              alt="Foto de perfil"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+
+          {/* Username */}
+          <p
+            className="
+              text-[14px] font-normal leading-6
+              text-[#ffffff]
+              [html:not(.dark)_&]:text-[#000000]
+            "
+          >
+            @juliealtra
+          </p>
+
+          {/* Theme Toggle */}
+          <ThemeToggle />
+
+          {/* Links */}
+          <div className="flex w-full flex-col gap-3">
+            {links.map((link) => (
+              <LinkButton
+                key={link.label}
+                href={link.href}
+                label={link.label}
+              />
+            ))}
+          </div>
+
+          {/* Social Icons */}
+          <SocialIcons />
+
+          {/* Footer */}
+          <p
+            className="
+              text-[14px] font-normal leading-6
+              text-[#ffffff]
+              [html:not(.dark)_&]:text-[#000000]
+            "
+          >
+            Feito com ❤️ pela{" "}
+            <a
+              href="#"
+              className="underline underline-offset-2 opacity-70 hover:opacity-100 transition-opacity"
+            >
+              Rocketseat
+            </a>
+          </p>
+        </div>
+      </div>
+    </main>
   );
 }
