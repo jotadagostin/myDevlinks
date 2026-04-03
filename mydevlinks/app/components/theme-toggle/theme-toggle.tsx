@@ -44,7 +44,7 @@ export function ThemeToggle() {
       >
         <span
           className="text-base"
-          style={{ color: isDark ? "#000000" : "#ffffff" }}
+          style={{ color: isDark ? "#ffffff" : "#000000" }}
         >
           {isDark ? <RiMoonLine /> : <RiSunLine />}
         </span>

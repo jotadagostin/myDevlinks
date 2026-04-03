@@ -19,8 +19,7 @@ export function SocialIcons() {
           aria-label={label}
           className="
             text-xl transition-opacity duration-200 hover:opacity-60
-            text-[#ffffff]
-            [html:not(.dark)_&]:text-[#000000]
+            text-black dark:text-white
           "
         >
           <Icon />

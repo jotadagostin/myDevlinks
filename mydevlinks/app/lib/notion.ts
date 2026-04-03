@@ -1,8 +1,5 @@
-import { Client } from "@notionhq/client";
-
-export const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
-});
+import { Client, isFullPage } from "@notionhq/client";
+import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export type LinkItem = {
   label: string;
@@ -10,7 +7,11 @@ export type LinkItem = {
 };
 
 export async function getLinks(): Promise<LinkItem[]> {
-  const response = await notion.databases.query({
+  const notion = new Client({
+    auth: process.env.NOTION_TOKEN,
+  });
+
+  const response = await notion.dataSources.query({
     database_id: process.env.NOTION_DATABASE_ID!,
     filter: {
       property: "Ativo",
@@ -21,10 +22,19 @@ export async function getLinks(): Promise<LinkItem[]> {
   });
 
   return response.results
-    .map((page: any) => {
-      const label = page.properties?.Label?.title?.[0]?.plain_text ?? "";
-      const url = page.properties?.URL?.url ?? "#";
+    .filter(isFullPage)
+    .map((page: PageObjectResponse) => {
+      const labelProp = page.properties?.Label;
+      const urlProp = page.properties?.URL;
+
+      const label =
+        labelProp?.type === "title"
+          ? (labelProp.title[0]?.plain_text ?? "")
+          : "";
+
+      const url = urlProp?.type === "url" ? (urlProp.url ?? "#") : "#";
+
       return { label, url };
     })
-    .filter((link) => link.label !== "");
+    .filter((link: LinkItem) => link.label !== "");
 }
