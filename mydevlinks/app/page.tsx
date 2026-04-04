@@ -2,15 +2,13 @@ import Image from "next/image";
 import { ThemeToggle } from "./components/theme-toggle";
 import { LinkButton } from "./components/link-button";
 import { SocialIcons } from "./components/social-icons";
+import { getLinks } from "./lib/notion";
 
-const links = [
-  { label: "Sign up for MLW", href: "#" },
-  { label: "Download my e-book", href: "#" },
-  { label: "View my portfolio", href: "#" },
-  { label: "Learn about my course", href: "#" },
-];
+export const revalidate = 60;
 
-export default function Home() {
+export default async function Home() {
+  const links = await getLinks();
+
   return (
     <main
       className="
@@ -57,13 +55,19 @@ export default function Home() {
 
           {/* Links */}
           <div className="flex w-full flex-col gap-3">
-            {links.map((link) => (
-              <LinkButton
-                key={link.label}
-                href={link.href}
-                label={link.label}
-              />
-            ))}
+            {links.length > 0 ? (
+              links.map((link) => (
+                <LinkButton
+                  key={link.label}
+                  href={link.url}
+                  label={link.label}
+                />
+              ))
+            ) : (
+              <p className="text-center text-sm text-white [html:not(.dark)_&]:text-black">
+                Nenhum link encontrado. Verifique seu Notion CMS.
+              </p>
+            )}
           </div>
 
           {/* Social Icons */}
