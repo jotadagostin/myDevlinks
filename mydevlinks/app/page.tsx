@@ -2,32 +2,23 @@ import Image from "next/image";
 import { ThemeToggle } from "./components/theme-toggle";
 import { LinkButton } from "./components/link-button";
 import { SocialIcons } from "./components/social-icons";
-import { getLinks } from "./lib/notion";
+import links from "@/app/data/links.json";
 
-export const revalidate = 60;
-
-export default async function Home() {
-  const links = await getLinks();
-
+export default function Home() {
   return (
     <main
       className="
         min-h-screen w-full bg-cover bg-center bg-no-repeat
- 
-        /* mobile: usa bg mobile */
         bg-[url('/bg-mobile-light.png')]
         dark:bg-[url('/bg-mobile-dark.png')]
- 
-        /* desktop: usa bg desktop */
         md:bg-[url('/bg-desktop-light.png')]
         dark:md:bg-[url('/bg-desktop-dark.png')]
       "
     >
       <div className="flex min-h-screen items-center justify-center px-4 py-12">
         <div className="flex w-full max-w-sm flex-col items-center gap-6">
-          {/* Avatar — troca conforme o tema */}
+          {/* Avatar */}
           <div className="relative h-20 w-20 overflow-hidden rounded-full ring-2 ring-[rgba(255,255,255,0.5)] [html:not(.dark)_&]:ring-[rgba(0,0,0,0.5)]">
-            {/* Avatar dark — visível só no dark mode */}
             <Image
               src="/avatar-darkmode.png"
               alt="Foto de perfil"
@@ -35,7 +26,6 @@ export default async function Home() {
               className="object-cover transition-opacity duration-300 opacity-0 dark:opacity-100"
               priority
             />
-            {/* Avatar light — visível só no light mode */}
             <Image
               src="/avatar-lightmode.png"
               alt="Foto de perfil"
@@ -55,19 +45,9 @@ export default async function Home() {
 
           {/* Links */}
           <div className="flex w-full flex-col gap-3">
-            {links.length > 0 ? (
-              links.map((link) => (
-                <LinkButton
-                  key={link.label}
-                  href={link.url}
-                  label={link.label}
-                />
-              ))
-            ) : (
-              <p className="text-center text-sm text-white [html:not(.dark)_&]:text-black">
-                Nenhum link encontrado. Verifique seu Notion CMS.
-              </p>
-            )}
+            {links.map((link) => (
+              <LinkButton key={link.label} href={link.url} label={link.label} />
+            ))}
           </div>
 
           {/* Social Icons */}

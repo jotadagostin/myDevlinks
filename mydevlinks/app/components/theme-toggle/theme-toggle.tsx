@@ -1,22 +1,19 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { useTheme } from "../theme-provider";
 import { RiMoonLine, RiSunLine } from "react-icons/ri";
 
-const subscribe = (cb: () => void) => {
-  window.addEventListener("storage", cb);
-  return () => window.removeEventListener("storage", cb);
-};
-
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [, startTransition] = useTransition();
 
-  const mounted = useSyncExternalStore(
-    subscribe,
-    () => true,
-    () => false,
-  );
+  useEffect(() => {
+    startTransition(() => {
+      setMounted(true);
+    });
+  }, []);
 
   if (!mounted) return null;
 
@@ -24,7 +21,7 @@ export function ThemeToggle() {
 
   return (
     <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={toggleTheme}
       aria-label="Toggle theme"
       className="relative inline-flex h-6 w-16 items-center rounded-full transition-colors duration-300"
       style={{
@@ -34,7 +31,6 @@ export function ThemeToggle() {
           : "1px solid rgba(0,0,0,0.5)",
       }}
     >
-      {/* Bolinha deslizante */}
       <span
         className="relative inline-flex h-8 w-8 items-center justify-center rounded-full transition-transform duration-300 z-10"
         style={{
