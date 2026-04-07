@@ -1,18 +1,15 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "../theme-provider";
 import { RiMoonLine, RiSunLine } from "react-icons/ri";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [, startTransition] = useTransition();
 
   useEffect(() => {
-    startTransition(() => {
-      setMounted(true);
-    });
+    setMounted(true);
   }, []);
 
   if (!mounted) return null;
