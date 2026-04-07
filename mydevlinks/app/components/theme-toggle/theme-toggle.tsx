@@ -1,16 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useTheme } from "../theme-provider";
 import { RiMoonLine, RiSunLine } from "react-icons/ri";
 
+const subscribe = (cb: () => void) => {
+  window.addEventListener("storage", cb);
+  return () => window.removeEventListener("storage", cb);
+};
+
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  // const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
+
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
 
   if (!mounted) return null;
 
@@ -37,7 +48,7 @@ export function ThemeToggle() {
       >
         <span
           className="text-base"
-          style={{ color: isDark ? "#ffffff" : "#000000" }}
+          style={{ color: isDark ? "#000000" : "#ffffff" }}
         >
           {isDark ? <RiMoonLine /> : <RiSunLine />}
         </span>
